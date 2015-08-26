@@ -1,6 +1,8 @@
 /*
 * TaskModulate.c
 *
+* Created: 2015-08-26
+* Author: Viktor Rusnak, Michael Nilsson
 */
 
 #include <asf.h>
@@ -9,9 +11,7 @@
 #include "FuncADC.h"
 #include "FuncPWM.h"
 #include "Global.h"
-
-#include "FilterFunctins.h"
-#include "BluetoothUART.h"
+#include "SerialUART.h"
 
 #define WINDOW_SIZE 4
 

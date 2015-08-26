@@ -1,11 +1,13 @@
 /*
 * TaskSend.c
 *
+* Created: 2015-08-26
+* Author: Viktor Rusnak, Michael Nilsson
 */
 
 #include <asf.h>
 #include "TaskSendToMatlab.h"
-#include "BluetoothUART.h"
+#include "SerialUART.h"
 #include "FuncADC.h"
 #include "FuncPWM.h"
 #include "Global.h"

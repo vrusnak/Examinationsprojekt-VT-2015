@@ -1,6 +1,8 @@
 /*
 * FuncPWM.c
 *
+* Created: 2015-08-26
+* Author: Viktor Rusnak, Michael Nilsson
 */
 #include <asf.h>
 #include "FuncPWM.h"
@@ -34,7 +36,6 @@ void InitPIN40(void)
 
 void CalcFanValue(uint32_t dutyCycle)
 {
-	//pwm_channel_update_duty(PWM, &pwmPIN40, dutyCycle);
 	if(dutyCycle <= 100 && dutyCycle >=0)
 	{
 		pwm_channel_update_duty(PWM, &pwmPIN40, dutyCycle);

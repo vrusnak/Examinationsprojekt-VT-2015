@@ -235,7 +235,7 @@
         <documentation help="http://asf.atmel.com/docs/3.19.0/common.applications.user_application.arduino_due_x/html/index.html" />
         <offline-documentation help="" />
         <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.6.0" />
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.10.1" />
         </dependencies>
         <project id="common.applications.user_application.arduino_due_x" value="Add" config="" content-id="Atmel.ASF" />
         <board id="board.arduino_due_x" value="Add" config="" content-id="Atmel.ASF" />
@@ -545,16 +545,10 @@
     <Compile Include="src\ASF\thirdparty\freertos\freertos-7.3.0\source\FreeRTOS_CLI.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\BluetoothUART.c">
+    <Compile Include="src\SerialUART.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\BluetoothUART.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\FilterFunctins.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\FilterFunctions.c">
+    <Compile Include="src\SerialUART.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\FuncPWM.c">
@@ -570,12 +564,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\TaskModulate.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\TaskReceive.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\TaskReceive.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\TaskSendToMatlab.c">

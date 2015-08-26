@@ -10,15 +10,11 @@ src\ASF\sam\drivers\adc\adc.c
 
 src\ASF\thirdparty\freertos\freertos-7.3.0\source\FreeRTOS_CLI.c
 
-src\BluetoothUART.c
-
-src\FilterFunctions.c
+src\SerialUART.c
 
 src\FuncPWM.c
 
 src\TaskModulate.c
-
-src\TaskReceive.c
 
 src\TaskSendToMatlab.c
 

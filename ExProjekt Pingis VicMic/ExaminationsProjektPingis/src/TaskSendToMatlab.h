@@ -1,8 +1,8 @@
 /*
  * TaskSend.h
  *
- * Created: 2015-05-02 14:26:19
- *  Author: Ali
+* Created: 2015-08-26
+* Author: Viktor Rusnak, Michael Nilsson
  */ 
 
 

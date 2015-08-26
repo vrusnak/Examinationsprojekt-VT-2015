@@ -1,8 +1,8 @@
 /**
-* \file
+* main.c
 *
-* \brief Empty user application template
-*
+* Created: 2015-08-26 
+* Author: Viktor Rusnak, Michael Nilsson
 */
 
 #include <asf.h>
@@ -10,9 +10,7 @@
 #include "TaskModulate.h"
 #include "FuncADC.h"
 #include "FuncPWM.h"
-
-#include "BluetoothUART.h"
-#include "FilterFunctins.h"
+#include "SerialUART.h"
 
 static void ConfigureConsole(void)
 {
