@@ -1,9 +1,9 @@
 /*
- * FuncADC.h
- *
- * Created: 2015-08-26
- * Author: Viktor Rusnak, Michael Nilsson
- */ 
+* FuncADC.h
+*
+* Created: 2015-08-26
+* Author: Viktor Rusnak, Michael Nilsson
+*/
 
 #ifndef ADCFUNCTIONS_H_
 #define ADCFUNCTIONS_H_

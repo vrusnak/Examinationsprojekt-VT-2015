@@ -1,9 +1,9 @@
 /*
- * TaskSend.h
- *
+* TaskSend.h
+*
 * Created: 2015-08-26
 * Author: Viktor Rusnak, Michael Nilsson
- */ 
+*/
 
 
 #ifndef TASKSEND_H_

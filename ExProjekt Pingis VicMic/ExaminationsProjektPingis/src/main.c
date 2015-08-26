@@ -1,7 +1,7 @@
 /**
 * main.c
 *
-* Created: 2015-08-26 
+* Created: 2015-08-26
 * Author: Viktor Rusnak, Michael Nilsson
 */
 
@@ -12,6 +12,9 @@
 #include "FuncPWM.h"
 #include "SerialUART.h"
 
+/************************************************************************/
+/* Configuration of the console window. */
+/************************************************************************/
 static void ConfigureConsole(void)
 {
 	const usart_serial_options_t uart_serial_options = { .baudrate =CONF_UART_BAUDRATE, .paritytype = CONF_UART_PARITY };
@@ -24,7 +27,9 @@ static void ConfigureConsole(void)
 	#endif
 }
 
-
+/************************************************************************/
+/* Initiation of the program. */
+/************************************************************************/
 int main (void)
 {
 	sysclk_init();

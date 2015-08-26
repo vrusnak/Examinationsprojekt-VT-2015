@@ -8,6 +8,9 @@
 #include <asf.h>
 #include "FuncADC.h"
 
+/************************************************************************/
+/* Configuration of AD-converter. */
+/************************************************************************/
 void InitADC(void)
 {
 	/* Configure power management of ADC timer clock */
@@ -19,6 +22,9 @@ void InitADC(void)
 	adc_configure_trigger(ADC, ADC_TRIG_SW, 0);
 }
 
+/************************************************************************/
+/* Returns a value from channel 10 on the analogue input. */
+/************************************************************************/
 uint32_t ReadFanValue(void)
 {
 	uint32_t currSensorValue;

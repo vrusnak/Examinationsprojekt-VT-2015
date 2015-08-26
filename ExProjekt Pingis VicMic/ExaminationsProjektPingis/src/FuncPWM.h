@@ -1,9 +1,9 @@
 /*
- * FuncPWM.h
- *
+* FuncPWM.h
+*
 * Created: 2015-08-26
 * Author: Viktor Rusnak, Michael Nilsson
- */ 
+*/
 
 #ifndef PWMFUNCTION_H_
 #define PWMFUNCTION_H_

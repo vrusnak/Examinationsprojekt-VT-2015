@@ -1,9 +1,9 @@
 /*
- * SerialUART.h
- *
- * Created: 2015-08-26
- * Author: Viktor Rusnak, Michael Nilsson
- */ 
+* SerialUART.h
+*
+* Created: 2015-08-26
+* Author: Viktor Rusnak, Michael Nilsson
+*/
 
 #ifndef SerialUART_H_
 #define SerialUART_H_

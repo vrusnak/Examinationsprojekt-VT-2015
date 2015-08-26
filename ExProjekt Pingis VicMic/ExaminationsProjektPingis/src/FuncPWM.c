@@ -9,6 +9,9 @@
 
 pwm_channel_t pwmPIN40;
 
+/************************************************************************/
+/* Configuration of the Pulse Width Modulation (PWM). */
+/************************************************************************/
 void InitPWM(void){
 	pmc_enable_periph_clk(ID_PWM);
 	pwm_channel_disable(PWM, PWM_CHANNEL_3);
@@ -23,8 +26,11 @@ void InitPWM(void){
 	InitPIN40();
 }
 
+/************************************************************************/
+/* Initiation of digital pin 40 on the Arduino Due board. */
+/************************************************************************/
 void InitPIN40(void)
-{	
+{
 	pwmPIN40.channel = PWM_CHANNEL_3;
 	pwmPIN40.ul_prescaler = PWM_CMR_CPRE_CLKA;
 	pwmPIN40.ul_duty = 0;
@@ -34,6 +40,9 @@ void InitPIN40(void)
 	pwm_channel_enable(PWM, PWM_CHANNEL_3);
 }
 
+/************************************************************************/
+/* Calculation of the output value. */
+/************************************************************************/
 void CalcFanValue(uint32_t dutyCycle)
 {
 	if(dutyCycle <= 100 && dutyCycle >=0)

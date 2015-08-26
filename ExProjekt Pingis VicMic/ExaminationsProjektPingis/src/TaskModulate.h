@@ -1,9 +1,9 @@
 /*
- * TaskModulate.h
- *
- * Created: 2015-08-26
- * Author: Viktor Rusnak, Michael Nilsson
- */ 
+* TaskModulate.h
+*
+* Created: 2015-08-26
+* Author: Viktor Rusnak, Michael Nilsson
+*/
 
 
 #ifndef TASKMODULATE_H_
