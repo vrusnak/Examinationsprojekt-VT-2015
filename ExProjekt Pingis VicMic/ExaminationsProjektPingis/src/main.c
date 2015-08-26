@@ -33,12 +33,17 @@ int main (void)
 	InitADC();
 	ConfigureConsole();
 	InitPWM();
-
 	setupUART();
 	
+	/************************************************************************/
+	/* First task that handles the PID-regulation. The task with highest priority. */
+	/************************************************************************/
 	if (xTaskCreate(taskModulate, (const signed char * const) "taskModulate", 1024, NULL, 2, NULL) != pdPASS){
 		printf("Failed to create taskModulate\n");
 	}
+	/************************************************************************/
+	/* Second task that handles the communication to Matlab. The task with lowest priority. */
+	/************************************************************************/
 	if (xTaskCreate(taskSendToMatlab, (const signed char * const) "taskSendToMatlab", 1024, NULL, 1, NULL) != pdPASS){
 		printf("Failed to create taskSendToMatlab\n");
 	}

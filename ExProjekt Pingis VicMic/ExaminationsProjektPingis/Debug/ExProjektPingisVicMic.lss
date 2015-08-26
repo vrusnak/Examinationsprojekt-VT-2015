@@ -27,13 +27,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  11 .debug_ranges 00000f30  00000000  00000000  000325d6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  0001a1e7  00000000  00000000  00033506  2**0
+ 12 .debug_macro  0001a1e1  00000000  00000000  00033506  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_line   00014348  00000000  00000000  0004d6ed  2**0
+ 13 .debug_line   00014348  00000000  00000000  0004d6e7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    000682b3  00000000  00000000  00061a35  2**0
+ 14 .debug_str    000682a4  00000000  00000000  00061a2f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_frame  00002e64  00000000  00000000  000c9ce8  2**2
+ 15 .debug_frame  00002e64  00000000  00000000  000c9cd4  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -681,9 +681,9 @@ void CalcFanValue(uint32_t dutyCycle)
    803f0:	00081e95 	.word	0x00081e95
 
 000803f4 <SetDesiredValue>:
-}
-
-
+/************************************************************************/
+/* Setup for default values. */
+/************************************************************************/
 void SetDesiredValue(uint32_t value)
 {
 	switch(value)
@@ -759,10 +759,10 @@ void SetDesiredValue(uint32_t value)
    8046c:	00000000 	.word	0x00000000
 
 00080470 <taskModulate>:
-//static uint32_t distanceValues[WINDOW_SIZE] = {0};
-//static uint8_t statusControllerReady = 0;
-/////////////////////
 
+/************************************************************************/
+/* Task that handle the regulation process of the actuator. */
+/************************************************************************/
 void taskModulate(void *p)
 {
    80470:	e92d 4df0 	stmdb	sp!, {r4, r5, r6, r7, r8, sl, fp, lr}
@@ -775,7 +775,7 @@ void taskModulate(void *p)
    8047a:	9001      	str	r0, [sp, #4]
 	for(;;)
 	{
-		xSampleTime = (portTickType)sampleTimeMilli;
+		xSampleTime = (portTickType)samplingTimeMS;
 		vTaskDelayUntil(&xLastWakeTime, xSampleTime);
    8047c:	a801      	add	r0, sp, #4
    8047e:	2132      	movs	r1, #50	; 0x32
@@ -9047,11 +9047,13 @@ static inline void usart_serial_init(usart_if p_usart,
 	InitPWM();
    8291c:	4b23      	ldr	r3, [pc, #140]	; (829ac <main+0x100>)
    8291e:	4798      	blx	r3
-
 	setupUART();
    82920:	4b23      	ldr	r3, [pc, #140]	; (829b0 <main+0x104>)
    82922:	4798      	blx	r3
 	
+	/************************************************************************/
+	/* First task that handles the PID-regulation. The task with highest priority. */
+	/************************************************************************/
 	if (xTaskCreate(taskModulate, (const signed char * const) "taskModulate", 1024, NULL, 2, NULL) != pdPASS){
    82924:	2302      	movs	r3, #2
    82926:	9300      	str	r3, [sp, #0]
@@ -9071,6 +9073,9 @@ static inline void usart_serial_init(usart_if p_usart,
    82942:	4b20      	ldr	r3, [pc, #128]	; (829c4 <main+0x118>)
    82944:	4798      	blx	r3
 	}
+	/************************************************************************/
+	/* Second task that handles the communication to Matlab. The task with lowest priority. */
+	/************************************************************************/
 	if (xTaskCreate(taskSendToMatlab, (const signed char * const) "taskSendToMatlab", 1024, NULL, 1, NULL) != pdPASS){
    82946:	2301      	movs	r3, #1
    82948:	9300      	str	r3, [sp, #0]

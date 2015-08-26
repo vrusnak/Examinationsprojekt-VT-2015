@@ -13,30 +13,37 @@
 #include "Global.h"
 #include "SerialUART.h"
 
-#define WINDOW_SIZE 4
-
+/************************************************************************/
+/* Declaration of a flag for status. */
+/************************************************************************/
 static int ready = 0;
 
+/************************************************************************/
+/* Declaration of signal variables. */
+/************************************************************************/
 static uint32_t desiredValue = 0;
 static uint32_t initialU = 0;
 static int32_t finalU = 0;
 
+/************************************************************************/
+/* Declaration of error variables. */
+/************************************************************************/
 static int32_t error = 0;
 static int32_t prevError = 0;
 static int32_t w = 0;
 
+/************************************************************************/
+/* Declaration of regulation variables. */
+/************************************************************************/
 static double kp = 0.3;
-static double ki  = 2.5;
-static double kd   = 0.375;
+static double ki = 2.5;
+static double kd = 0.375;
 static double samplingTime = 0.1;
+static uint32_t samplingTimeMS = 50;
 
-/////////////////////ali
-static uint32_t sampleTimeMilli = 50;
-
-//static uint32_t distanceValues[WINDOW_SIZE] = {0};
-//static uint8_t statusControllerReady = 0;
-/////////////////////
-
+/************************************************************************/
+/* Task that handle the regulation process of the actuator. */
+/************************************************************************/
 void taskModulate(void *p)
 {
 	portTickType xLastWakeTime;
@@ -44,7 +51,7 @@ void taskModulate(void *p)
 	xLastWakeTime = xTaskGetTickCount();
 	for(;;)
 	{
-		xSampleTime = (portTickType)sampleTimeMilli;
+		xSampleTime = (portTickType)samplingTimeMS;
 		vTaskDelayUntil(&xLastWakeTime, xSampleTime);
 		
 		if(flag == 0)
@@ -101,6 +108,9 @@ void taskModulate(void *p)
 	}
 }
 
+/************************************************************************/
+/* Calculation of the controlsignal. */
+/************************************************************************/
 int32_t CalcSignal(double sampTime, double k_p, double k_i, double k_d, int32_t currErr, int32_t prevErr, int32_t sumErr)
 {
 	double proportionalPart;
@@ -112,12 +122,13 @@ int32_t CalcSignal(double sampTime, double k_p, double k_i, double k_d, int32_t 
 	integralPart = (double)sumErr * (sampTime/k_i);
 	derivingPart = ((double)currErr - (double)prevErr) * (k_d / sampTime);
 	signal = proportionalPart + integralPart + derivingPart;
-	//printf("Signal %d\n", signal);
 	
 	return signal;
 }
 
-
+/************************************************************************/
+/* Setup for default values. */
+/************************************************************************/
 void SetDesiredValue(uint32_t value)
 {
 	switch(value)
@@ -144,23 +155,3 @@ void SetDesiredValue(uint32_t value)
 		break;
 	}
 }
-
-//void setControllerReady(void){
-//statusControllerReady = 1;
-//}
-//
-//void stopController(void){
-//statusControllerReady = 0;
-//previousErrorValue = 0;
-//sumOfErrorValues = 0;
-//changeDutyCycle(34, 0);
-//}
-//
-//void setParameters(uint8_t newSetpoint,	uint8_t newSampleTime, double newKp, double newKi, double newKd){
-//setSetpoint(newSetpoint);
-//sampleTimeMilli = newSampleTime;
-//sampleTimeSec = (double)newSampleTime / 1000;
-//kp = newKp;
-//ki = newKi;
-//kd = newKd;
-//}
