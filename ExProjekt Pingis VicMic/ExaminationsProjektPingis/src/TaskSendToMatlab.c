@@ -28,7 +28,7 @@ void taskSendToMatlab(void *p)
 	portTickType xLastWakeTime;
 	portTickType xSampleTime;
 	
-	xSampleTime = 50;
+	xSampleTime = 100;
 	xLastWakeTime = xTaskGetTickCount();
 	for(;;)
 	{
@@ -47,6 +47,7 @@ void taskSendToMatlab(void *p)
 		
 		if(flag == 1)
 		{
+			printf("%d\n", 25);
 			printf("%d\n", circBuffertControlSignal[0]);
 			printf("%d\n", circBuffertActualValue[0]);
 			printf("%d\n", circBuffertError[0]);

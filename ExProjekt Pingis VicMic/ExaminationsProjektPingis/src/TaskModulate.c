@@ -1,7 +1,7 @@
 /*
 * TaskModulate.c
 *
-* Created: 2015-12-06
+* Created: 2015-01-09
 * Author: Viktor Rusnak, Michael Nilsson
 */
 
@@ -13,11 +13,17 @@
 #include "Global.h"
 #include "SerialUART.h"
 
+#define POSITIONS 6
+
+/************************************************************************/
+/* Declaration of filter. */
+/************************************************************************/
+static int32_t filter[POSITIONS] = {0};
+
 /************************************************************************/
 /* Declaration of a flag for status. */
 /************************************************************************/
 static int ready = 0;
-static int count = 0;
 
 /************************************************************************/
 /* Declaration of signal variables. */
@@ -35,15 +41,18 @@ static int32_t w = 0;
 /************************************************************************/
 /* Declaration of regulation variables. */
 /************************************************************************/
-//static double kp = 0.42;
-//static double ki = 1.25;
-//static double kd = 0.31;
+//Enligt Z-N
+//Period = 2.9s
+//static double kp = 0.32;
+//static double ki = 1.45;
+//static double kd = 0.36;
+
 static double kp = 0.0;
 static double ki = 0.0;
 static double kd = 0.0;
 
-static double samplingTime = 0.05;
-static uint32_t samplingTimeMS = 50;
+static double samplingTime = 0.1;
+static uint32_t samplingTimeMS = 100;
 
 /************************************************************************/
 /* Task that handle the regulation process of the actuator. */
@@ -71,6 +80,7 @@ void taskModulate(void *p)
 		
 		if(flag == 1 && ready == 0)
 		{
+			/* Send in parameters + desired value. */
 			waitRXReady();
 			kp = readDouble();
 			
@@ -84,30 +94,45 @@ void taskModulate(void *p)
 			SetDesiredValue(readByte());
 			
 			ready = 1;
-
+			
+			/* Send in desired value only. */
+			//if (isRXReady())
+			//{
+			//if((readByte() != 1) || (readByte() != 0))
+			//{
+			//SetDesiredValue(readByte());
+			//ready = 1;
+			//}
+			//}
 		}
 		
 		if(flag == 1 && ready == 1)
 		{
-			int32_t currSensorValue = 0;
-			int32_t SensorValue;
-
-			if(count = 10)
+			/* Moving average of n positions. */
+			filter[POSITIONS-1] = ReadFanValue();
+			
+			int32_t averageSensorValue = 0;
+			
+			for(int i = 0; i<POSITIONS; i++)
 			{
-				for(int i = 1; i<11; i++)
-				{
-					currSensorValue = currSensorValue + ReadFanValue();
-				}
-				SensorValue = currSensorValue/10;
-				count = 0;
-			}
-			else
-			{
-				SensorValue = ReadFanValue();
-				count = count + 1;
+				averageSensorValue = averageSensorValue + filter[i];
 			}
 			
-			error = desiredValue - SensorValue;
+			averageSensorValue = averageSensorValue / POSITIONS;
+			
+			for(int i = 0; i<POSITIONS-1; i++)
+			{
+				filter[i] = filter[i+1];
+			}
+			
+			filter[POSITIONS-1] = 0;
+
+			/* Calculation of the error. */
+			error = desiredValue - averageSensorValue;
+			
+			/* Due to linearization the sign of the error
+			must be changed in order to get a positive signal.*/
+			error = error * -1;
 
 			finalU = CalcSignal(samplingTime, kp, ki, kd, error, prevError, w);
 			
@@ -116,16 +141,11 @@ void taskModulate(void *p)
 				finalU = 0;
 			}
 			
-			//if(error < 0)
-			//{
-			//w=0;
-			//}
-			
 			prevError = error;
 			w = w + prevError;
 			
 			CalcFanValue(finalU);
-			setInfo(finalU, SensorValue, error);
+			setInfo(finalU, averageSensorValue, -error);
 		}
 	}
 }

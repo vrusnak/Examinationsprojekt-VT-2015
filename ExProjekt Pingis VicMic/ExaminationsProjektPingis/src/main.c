@@ -40,6 +40,13 @@ int main (void)
 	InitPWM();
 	setupUART();
 	
+	//CalcFanValue(0);
+	//
+	//while(true)
+	//{
+		//printf("%d\n",ReadFanValue());
+	//}
+	
 	/************************************************************************/
 	/* First task that handles the PID-regulation. The task with highest priority. */
 	/************************************************************************/
